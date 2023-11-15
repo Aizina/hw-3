@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Приложение с input и кнопкой</title>
+</head>
+<body>
+    <h1>Введите два числа в диапазоне от 100 до 300:</h1>
+    <input type="text" id="firstNumber" placeholder="Первое число">
+    <input type="text" id="secondNumber" placeholder="Второе число">
+    <button id="submitButton">Submit</button>
+    <p id="result"></p>
+
+    <script>
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const firstNumberInput = document.getElementById("firstNumber");
+            const secondNumberInput = document.getElementById("secondNumber");
+            const submitButton = document.getElementById("submitButton");
+            const resultParagraph = document.getElementById("result");
+
+            submitButton.addEventListener("click", function () {
+                const firstNumber = parseFloat(firstNumberInput.value);
+                const secondNumber = parseFloat(secondNumberInput.value);
+
+                if (isNaN(firstNumber) || isNaN(secondNumber) || firstNumber < 100 || firstNumber > 300 || secondNumber < 100 || secondNumber > 300) {
+                    resultParagraph.textContent = "Одно из чисел вне диапазона от 100 до 300";
+                } else {
+                    // Подготавливаем URL для запроса
+                    const url = `https://dummyimage.com/${firstNumber}x${secondNumber}/`;
+
+                    // Отправляем запрос с использованием Fetch API
+                    fetch(url)
+                        .then(response => {
+                            if (response.ok) {
+                                // Если запрос успешен, выводим изображение
+                                resultParagraph.innerHTML = `<img src="${url}" alt="Изображение">`;
+                            } else {
+                                resultParagraph.textContent = "Ошибка при загрузке изображения";
+                            }
+                        })
+                        .catch(error => {
+                            resultParagraph.textContent = "Ошибка при выполнении запроса: " + error;
+                        });
+                }
+            });
+        });
+
+
+    </script>
+</body>
+</html>
